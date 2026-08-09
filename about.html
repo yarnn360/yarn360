@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story — YARN360</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.jpg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="index.html" class="nav__logo">
+        <img src="assets/logo.jpg" alt="YARN360 logo"><span>YARN360</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="index.html#newsletter">Journal</a></li>
+      </ul>
+      <a href="cart.html" class="nav__cart">Bag <span class="count js-cart-count">0</span></a>
+      <button class="nav__toggle" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Our story</span>
+      <h1>Threads with roots.</h1>
+      <p>YARN360 began with a simple idea — that the clothes we wear every day should feel as natural as the world that inspires them.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap story">
+      <div class="story__art"><img src="assets/logo.jpg" alt="YARN360"></div>
+      <div>
+        <span class="eyebrow">The beginning</span>
+        <h2>Born from a love of the natural world.</h2>
+        <p>We started in a small studio in Chennai, drawn to natural fibres, plant dyes, and the quiet craft of making clothes that last. The butterfly and leaves in our mark stand for transformation and growth — the way a good garment becomes part of your story.</p>
+        <p>Every collection is designed in small batches, so we can be careful about materials, mindful about waste, and honest about how things are made.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sage">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="eyebrow">What we stand for</span>
+        <h2>Three simple promises</h2>
+      </div>
+      <div class="product-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+        <div style="text-align:center; padding:20px;">
+          <h3 style="color:var(--forest); font-size:1.5rem; margin-bottom:12px;">Natural first</h3>
+          <p style="color:#55604a;">Organic and natural fibres, plant-based dyes, low-impact processes.</p>
+        </div>
+        <div style="text-align:center; padding:20px;">
+          <h3 style="color:var(--forest); font-size:1.5rem; margin-bottom:12px;">Made to last</h3>
+          <p style="color:#55604a;">Timeless cuts and honest construction, built to be worn for years.</p>
+        </div>
+        <div style="text-align:center; padding:20px;">
+          <h3 style="color:var(--forest); font-size:1.5rem; margin-bottom:12px;">Small batches</h3>
+          <p style="color:#55604a;">Thoughtful quantities so nothing is wasted and everything is considered.</p>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:50px;">
+        <a href="shop.html" class="btn btn--solid">Shop the collection</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__bottom" style="border:none; justify-content:center;">
+        <span>© <span id="year">2026</span> YARN360 · Made with care in Chennai, India.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

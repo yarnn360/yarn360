@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — YARN360</title>
+  <meta name="description" content="Shop the full YARN360 collection of botanical everyday wear.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.jpg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="index.html" class="nav__logo">
+        <img src="assets/logo.jpg" alt="YARN360 logo"><span>YARN360</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="index.html#newsletter">Journal</a></li>
+      </ul>
+      <a href="cart.html" class="nav__cart">Bag <span class="count js-cart-count">0</span></a>
+      <button class="nav__toggle" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">The full collection</span>
+      <h1>Shop</h1>
+      <p>Naturally dyed, thoughtfully cut pieces for a life lived close to the garden.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div id="filter-bar" class="filters"><!-- filters injected by JS --></div>
+      <div id="shop-grid" class="product-grid"><!-- products injected by JS --></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="assets/logo.jpg" alt="YARN360">
+          <p>Botanical everyday wear, made slowly for a life lived close to nature.</p>
+        </div>
+        <div><h4>Shop</h4><ul><li><a href="shop.html">New in</a></li><li><a href="shop.html">Tops</a></li><li><a href="shop.html">Dresses</a></li><li><a href="shop.html">Accessories</a></li></ul></div>
+        <div><h4>Company</h4><ul><li><a href="about.html">Our story</a></li><li><a href="#">Sustainability</a></li><li><a href="#">Contact</a></li></ul></div>
+        <div><h4>Follow</h4><ul><li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="#">Pinterest</a></li></ul></div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="year">2026</span> YARN360. All rights reserved.</span>
+        <span>Made with care in Chennai, India.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

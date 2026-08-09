@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YARN360 — Botanical Everyday Wear</title>
+  <meta name="description" content="YARN360 — thoughtfully made clothing inspired by the natural world.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="assets/logo.jpg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="index.html" class="nav__logo">
+        <img src="assets/logo.jpg" alt="YARN360 logo">
+        <span>YARN360</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="index.html#newsletter">Journal</a></li>
+      </ul>
+      <a href="cart.html" class="nav__cart">
+        Bag <span class="count js-cart-count">0</span>
+      </a>
+      <button class="nav__toggle" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <span class="eyebrow">Botanical everyday wear</span>
+        <h1 class="hero__title">Wear the <em>wild,</em><br>gently.</h1>
+        <p class="hero__text">Clothing shaped by leaf, wing and thread — made slowly, worn every day. Naturally dyed, thoughtfully cut, quietly beautiful.</p>
+        <div class="hero__actions">
+          <a href="shop.html" class="btn btn--solid">Shop the collection</a>
+          <a href="about.html" class="btn">Our story</a>
+        </div>
+      </div>
+      <div class="hero__art">
+        <img src="assets/logo.jpg" alt="YARN360">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="eyebrow">Chosen for the season</span>
+        <h2>The Featured Edit</h2>
+        <p>A handful of pieces we're loving right now — soft, grounded, made to last.</p>
+      </div>
+      <div id="featured-grid" class="product-grid"><!-- products injected by JS --></div>
+      <div style="text-align:center; margin-top:56px;">
+        <a href="shop.html" class="btn">View all</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORY STRIP ============ -->
+  <section class="section section--sage">
+    <div class="wrap story">
+      <div class="story__art"><img src="assets/logo.jpg" alt="YARN360 craft"></div>
+      <div>
+        <span class="eyebrow">Rooted in nature</span>
+        <h2>Made slowly,<br>with intention.</h2>
+        <p>Every YARN360 piece begins with natural fibres and low-impact dyes drawn from plants and minerals. We work in small batches so nothing is wasted and everything is considered.</p>
+        <p>The butterfly in our mark is a promise: clothing that grows more beautiful the more you live in it.</p>
+        <a href="about.html" class="btn">Read our story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section id="newsletter" class="section newsletter">
+    <div class="wrap">
+      <span class="eyebrow" style="color:var(--peach); opacity:.8;">Join the garden</span>
+      <h2 style="margin-top:14px;">First to know, first to bloom.</h2>
+      <p>Early access to new drops, restocks and small stories from the studio. No noise — just good things.</p>
+      <div class="newsletter__form" id="newsletter-form">
+        <input type="email" placeholder="Your email address" aria-label="Email address">
+        <button class="btn btn--solid" type="button">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="assets/logo.jpg" alt="YARN360">
+          <p>Botanical everyday wear, made slowly for a life lived close to nature.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html">New in</a></li>
+            <li><a href="shop.html">Tops</a></li>
+            <li><a href="shop.html">Dresses</a></li>
+            <li><a href="shop.html">Accessories</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">Our story</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Follow</h4>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">YouTube</a></li>
+            <li><a href="#">Pinterest</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="year">2026</span> YARN360. All rights reserved.</span>
+        <span>Made with care in Chennai, India.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
