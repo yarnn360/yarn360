@@ -34,7 +34,7 @@ const PRODUCTS = [
     category: "Chudi Materials(Unstitched)",
     price: 2399,
     tag: "Bestseller",
-    image: "assets/Firststone.jpg",
+    image: "assets/Firstone.jpg",
     featured: true,
   },
   {
