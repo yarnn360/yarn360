@@ -25,7 +25,7 @@ const PRODUCTS = [
     category: "tops",
     price: 2399,
     tag: "New",
-    image: "assets/products/linen-shirt.svg",
+    image: "assets/linen-shirt.jpg",
     featured: true,
   },
   {
@@ -43,7 +43,7 @@ const PRODUCTS = [
     category: "Chudi Materials(Unstitched)",
     price: 2499,
     tag: "Sold Out",
-    image: "assets/products/knit-sweater.svg",
+    image: "assets/knit-sweater.jpg",
     featured: true,
   },
 {
@@ -52,7 +52,7 @@ const PRODUCTS = [
     category: "Chudi Materials(Unstitched)",
     price: 299,
     tag: "New Collections",
-    image: "assets/products/knit-sweater.svg",
+    image: "assets/knit-sweater.jpg",
     featured: true,
   },
 ];
