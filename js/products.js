@@ -15,6 +15,8 @@
                 and point to them like "assets/products/my-photo.jpg"
      hoverImage - optional second photo shown when the shopper hovers the card
      featured - true shows it on the home page "Featured" section
+     description - optional paragraph shown in the quick-view popup
+     highlights - optional array of bullet points shown in the quick-view popup
    ===================================================================== */
 
 const CURRENCY = "₹";   // change to "$", "€", "AED" etc.
@@ -28,11 +30,30 @@ const PRODUCTS = [
     tag: "New Collections",
     image: "assets/GS-1.PNG",
     hoverImage: "assets/GS-2.PNG",
+    description: "Elevate your festive wardrobe with this Luxury Sea Green Organza Tissue Silk Unstitched Salwar Kameez Suit — a graceful blend of elegance, intricate craftsmanship and royal detailing.",
+    highlights: [
+      "Premium Organza Tissue Silk",
+      "Heavy Zari & Thread Embroidery",
+      "Floral Vine & Booti Detailing",
+      "Heavy Sequin & Embroidered Border",
+      "Matching Designer Organza Dupatta",
+      "Luxury Unstitched Salwar Suit",
+      "Perfect for Weddings, Eid & Festive Occasions",
+    ],
+    featured: true,
+  },
+  {
+    id: 4,
+    name: "Dove Grey Meadow Suit",
+    category: "Salwar Materials",
+    price: 2499,
+    tag: "New Collections",
+    image: "assets/knit-sweater.jpg",
     featured: true,
   },
   {
     id: 1,
-    name: "Lavender Bloom Aari Suit",
+    name: "Lilac Chiffon Aari Suit",
     category: "Salwar Materials",
     price: 2500,
     tag: "Sold Out",
@@ -41,11 +62,12 @@ const PRODUCTS = [
   },
   {
     id: 2,
-    name: "Meadow Cotton Dress",
+    name: "Dusty Mauve Aari Suit",
     category: "Salwar Materials",
     price: 2399,
     tag: "Sold Out",
     image: "assets/Firstone.jpg",
     featured: true,
   },
+
 ];

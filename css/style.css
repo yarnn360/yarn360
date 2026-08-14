@@ -171,7 +171,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.
   position: relative; overflow: hidden; border-radius: var(--radius);
   background: var(--sage); aspect-ratio: 4/5;
 }
-.card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; cursor: zoom-in; }
 .card:hover .card__media img { transform: scale(1.05); }
 .card__media-hover {
   position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease;
@@ -197,6 +197,92 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.
 .card__name { font-family: var(--font-display); font-size: 1.12rem; color: var(--forest-deep); }
 .card__cat  { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.16em; color: #8a917f; margin-top: 3px; }
 .card__price { font-family: var(--font-display); font-size: 1.12rem; color: var(--brass); white-space: nowrap; }
+
+/* =====================================================================
+   QUICK VIEW (click a product photo)
+   ===================================================================== */
+body.no-scroll { overflow: hidden; }
+.quick-view { position: fixed; inset: 0; z-index: 200; display: none; }
+.quick-view.is-open { display: block; }
+.quick-view__backdrop {
+  position: absolute; inset: 0; background: rgba(34, 51, 28, 0.55);
+}
+.quick-view__panel {
+  position: relative; margin: 5vh auto; max-width: 980px; max-height: 90vh;
+  overflow-y: auto; background: var(--ivory); border-radius: var(--radius);
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.quick-view__close {
+  position: absolute; top: 14px; right: 14px; z-index: 2;
+  width: 34px; height: 34px; border: none; border-radius: 50%;
+  background: var(--ivory); color: var(--forest-deep); font-size: 1.3rem;
+  line-height: 1; cursor: pointer;
+}
+.quick-view__close:hover { background: var(--sage); }
+.quick-view__media { background: var(--sage); display: flex; gap: 12px; padding: 20px; }
+.quick-view__thumbs { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+.quick-view__thumb {
+  width: 64px; height: 80px; object-fit: cover; border-radius: var(--radius);
+  cursor: pointer; opacity: 0.6; border: 2px solid transparent; transition: var(--transition);
+}
+.quick-view__thumb:hover { opacity: 0.9; }
+.quick-view__thumb.is-active { opacity: 1; border-color: var(--brass); }
+.quick-view__main { position: relative; flex: 1; min-width: 0; border-radius: var(--radius); overflow: hidden; }
+.quick-view__main-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.quick-view__zoom {
+  position: absolute; top: 14px; right: 14px; z-index: 1;
+  width: 34px; height: 34px; border: none; border-radius: 50%;
+  background: rgba(253, 247, 240, 0.85); font-size: 0.95rem;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.quick-view__zoom:hover { background: var(--ivory); }
+
+/* =====================================================================
+   IMAGE ZOOM LIGHTBOX
+   ===================================================================== */
+.zoom-lightbox { position: fixed; inset: 0; z-index: 300; display: none; }
+.zoom-lightbox.is-open { display: block; }
+.zoom-lightbox__backdrop { position: absolute; inset: 0; background: rgba(20, 26, 16, 0.92); }
+.zoom-lightbox__img {
+  position: relative; display: block; margin: 5vh auto 0;
+  max-width: 90vw; max-height: 88vh; object-fit: contain;
+  transform: scale(1); transform-origin: center;
+  transition: transform 0.25s ease; cursor: zoom-in;
+  touch-action: none; user-select: none;
+}
+.zoom-lightbox__img.is-dragging { transition: none; }
+.zoom-lightbox__close {
+  position: fixed; top: 20px; right: 24px; z-index: 1;
+  width: 40px; height: 40px; border: none; border-radius: 50%;
+  background: var(--ivory); color: var(--forest-deep); font-size: 1.4rem;
+  line-height: 1; cursor: pointer;
+}
+.zoom-lightbox__close:hover { background: var(--sage); }
+.zoom-lightbox__hint {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: rgba(253, 247, 240, 0.9); color: var(--forest-deep);
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 8px 16px; border-radius: 40px; pointer-events: none;
+}
+.quick-view__info { padding: 36px; display: flex; flex-direction: column; gap: 12px; }
+.quick-view__name { font-size: 1.6rem; color: var(--forest-deep); }
+.quick-view__price { font-family: var(--font-display); font-size: 1.3rem; color: var(--brass); }
+.quick-view__desc { color: var(--forest-deep); opacity: 0.85; line-height: 1.6; }
+.quick-view__highlights { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.quick-view__highlights li {
+  padding-left: 22px; position: relative; font-size: 0.92rem; color: var(--forest-deep);
+}
+.quick-view__highlights li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--brass); font-weight: 600;
+}
+.quick-view__add { margin-top: auto; align-self: flex-start; }
+
+@media (max-width: 720px) {
+  .quick-view__panel { grid-template-columns: 1fr; margin: 0; max-height: 100vh; border-radius: 0; }
+  .quick-view__media { flex-direction: column-reverse; aspect-ratio: 4/5; }
+  .quick-view__thumbs { flex-direction: row; }
+  .quick-view__thumb { width: 56px; height: 56px; }
+}
 
 /* =====================================================================
    FILTER BAR (shop page)
