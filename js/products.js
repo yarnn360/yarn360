@@ -49,10 +49,9 @@ const PRODUCTS = [
   {
     id: 4,
     name: "Moss Knit Sweater",
-    category: "Chudi Materials(Unstitched)",
-    price: 299,
-
-    image: "assets/knit-sweater.jpg",
+    tag: "New Collections",
+    price: 2999,
+    image: "assets/Website.jpg",
     featured: true,
   },
 ];
