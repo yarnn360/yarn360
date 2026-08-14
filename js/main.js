@@ -14,6 +14,7 @@ function productCard(p) {
       <div class="card__media">
         ${p.tag ? `<span class="card__tag">${p.tag}</span>` : ""}
         <img src="${p.image}" alt="${p.name}" loading="lazy">
+        ${p.hoverImage ? `<img src="${p.hoverImage}" alt="${p.name}" loading="lazy" class="card__media-hover">` : ""}
         <button class="card__add" onclick="addToCart(${p.id})">Add to bag</button>
       </div>
       <div class="card__body">

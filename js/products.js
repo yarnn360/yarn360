@@ -13,12 +13,23 @@
      tag      - small badge on the image, e.g. "New", "Bestseller", "" (empty = no badge)
      image    - path to the photo. Put real photos in assets/products/
                 and point to them like "assets/products/my-photo.jpg"
+     hoverImage - optional second photo shown when the shopper hovers the card
      featured - true shows it on the home page "Featured" section
    ===================================================================== */
 
 const CURRENCY = "₹";   // change to "$", "€", "AED" etc.
 
 const PRODUCTS = [
+  {
+    id: 3,
+    name: "Sage Gold Aari Suit",
+    category: "Salwar Materials",
+    price: 2399,
+    tag: "New Collections",
+    image: "assets/GS-1.PNG",
+    hoverImage: "assets/GS-2.PNG",
+    featured: true,
+  },
   {
     id: 1,
     name: "Lavender Bloom Aari Suit",
@@ -31,27 +42,10 @@ const PRODUCTS = [
   {
     id: 2,
     name: "Meadow Cotton Dress",
-    category: "Salwar materials",
+    category: "Salwar Materials",
     price: 2399,
     tag: "Sold Out",
     image: "assets/Firstone.jpg",
-    featured: true,
-  },
-  {
-    id: 3,
-    name: "Moss Knit Sweater",
-    category: "Salwar Materials",
-    price: 2499,
-    tag: "New Collections",
-    image: "assets/knit-sweater.jpg",
-    featured: true,
-  },
-  {
-    id: 4,
-    name: "Moss Knit Sweater",
-    tag: "New Collections",
-    price: 2999,
-    image: "assets/Website.jpg",
     featured: true,
   },
 ];
