@@ -45,8 +45,9 @@ const PRODUCTS = [
     category: "Salwar Materials",
     price: 2399,
     tag: "New Collections",
-    image: "assets/GS-1.PNG",
-    hoverImage: "assets/GS-2.PNG",
+    image: "assets/Front.png",
+    hoverImage: "assets/Side.png",
+    images: ["assets/Front.png", "assets/Side.png", "assets/Right.png", "assets/Back.png"],
     description: "Elevate your festive wardrobe with this Luxury Sea Green Organza Tissue Silk Unstitched Salwar Kameez Suit — a graceful blend of elegance, intricate craftsmanship and royal detailing.",
     highlights: [
       "Premium Organza Tissue Silk",
