@@ -40,11 +40,30 @@ function openQuickView(id) {
   }
 
   const description = p.description ? `<p class="quick-view__desc">${p.description}</p>` : "";
-  const highlights = (p.highlights && p.highlights.length)
-    ? `<ul class="quick-view__highlights">${p.highlights.map(h => `<li>${h}</li>`).join("")}</ul>`
-    : "";
 
-  const images = [p.image, p.hoverImage].filter(Boolean);
+  const accordionSections = [
+    p.highlights && p.highlights.length
+      ? { title: "Product Highlights", open: true, body: `<ul class="quick-view__highlights">${p.highlights.map(h => `<li>${h}</li>`).join("")}</ul>` }
+      : null,
+    { title: "Wash Care Instructions", open: false, body: `<p>${STORE_POLICIES.washCare}</p>` },
+    { title: "Shipping Timelines", open: false, body: `<p>${STORE_POLICIES.shipping}</p>` },
+    { title: "Exchange / Return Policy", open: false, body: `<p>${STORE_POLICIES.exchangeReturn}</p>` },
+    { title: "Disclaimer", open: false, body: `<p>${STORE_POLICIES.disclaimer}</p>` },
+  ].filter(Boolean);
+
+  const accordion = `
+    <div class="accordion">
+      ${accordionSections.map(s => `
+        <div class="accordion-item ${s.open ? "is-open" : ""}">
+          <button class="accordion-item__header" onclick="toggleAccordion(this)">
+            <span>${s.title}</span>
+            <span class="accordion-item__icon">▾</span>
+          </button>
+          <div class="accordion-item__body">${s.body}</div>
+        </div>`).join("")}
+    </div>`;
+
+  const images = (p.images && p.images.length ? p.images : [p.image, p.hoverImage]).filter(Boolean);
   const thumbs = images.length > 1
     ? `<div class="quick-view__thumbs">
         ${images.map((src, i) => `<img src="${src}" alt="${p.name} view ${i + 1}" class="quick-view__thumb ${i === 0 ? "is-active" : ""}" onclick="setQuickViewImage(this, '${src}')">`).join("")}
@@ -58,8 +77,8 @@ function openQuickView(id) {
       <div class="quick-view__media">
         ${thumbs}
         <div class="quick-view__main">
-          <img src="${p.image}" alt="${p.name}" class="quick-view__main-img">
-          <button class="quick-view__zoom" onclick="openImageZoom(this)" aria-label="Zoom image">🔍</button>
+          <img src="${p.image}" alt="${p.name}" class="quick-view__main-img" onclick="openImageZoom(this)">
+          <span class="quick-view__zoom-hint">Click to zoom</span>
         </div>
       </div>
       <div class="quick-view__info">
@@ -67,13 +86,17 @@ function openQuickView(id) {
         <h2 class="quick-view__name">${p.name}</h2>
         <div class="quick-view__price">${money(p.price)}</div>
         ${description}
-        ${highlights}
+        ${accordion}
         <button class="btn btn--solid quick-view__add" onclick="addToCart(${p.id})">Add to bag</button>
       </div>
     </div>`;
 
   modal.classList.add("is-open");
   document.body.classList.add("no-scroll");
+}
+
+function toggleAccordion(header) {
+  header.parentElement.classList.toggle("is-open");
 }
 
 function setQuickViewImage(thumb, src) {
@@ -90,9 +113,7 @@ function closeQuickView() {
 }
 
 /* ---- Full-screen zoom (magnify a quick-view photo) ---- */
-function openImageZoom(btn) {
-  const img = btn.closest(".quick-view__media").querySelector(".quick-view__main-img");
-
+function openImageZoom(img) {
   let lightbox = document.querySelector(".zoom-lightbox");
   if (!lightbox) {
     lightbox = document.createElement("div");
@@ -104,12 +125,14 @@ function openImageZoom(btn) {
     <div class="zoom-lightbox__backdrop" onclick="closeImageZoom()"></div>
     <button class="zoom-lightbox__close" onclick="closeImageZoom()" aria-label="Close">&times;</button>
     <span class="zoom-lightbox__hint">Tap to zoom · scroll or drag to move around</span>
-    <img src="${img.src}" alt="${img.alt}" class="zoom-lightbox__img">`;
+    <img src="${img.src}" alt="${img.alt}" class="zoom-lightbox__img" draggable="false" ondragstart="return false">`;
 
   lightbox.classList.add("is-open");
   document.body.classList.add("no-scroll");
 
   const zimg = lightbox.querySelector(".zoom-lightbox__img");
+  const MIN_SCALE = 1;   // never zoom out past the photo's normal size
+  const MAX_SCALE = 6;   // allow a closer zoom for fine embroidery detail
   let scale = 1, posX = 0, posY = 0;
   let dragging = false, moved = false, startX = 0, startY = 0;
 
@@ -130,9 +153,9 @@ function openImageZoom(btn) {
     e.preventDefault();
     if (e.ctrlKey) {
       // trackpad pinch gesture — always zoom
-      scale = Math.min(4, Math.max(1, scale - e.deltaY * 0.01));
-      if (scale === 1) { posX = 0; posY = 0; }
-    } else if (scale > 1) {
+      scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale - e.deltaY * 0.01));
+      if (scale === MIN_SCALE) { posX = 0; posY = 0; }
+    } else if (scale > MIN_SCALE) {
       // already zoomed in — scroll pans around the photo
       posX -= e.deltaX;
       posY -= e.deltaY;
@@ -145,13 +168,16 @@ function openImageZoom(btn) {
 
   zimg.addEventListener("click", () => {
     if (moved) { moved = false; return; }
-    scale = scale > 1 ? 1 : 2.5;
-    posX = 0; posY = 0;
+    // tap cycles through zoom levels: normal → zoomed in → max detail → normal
+    if (scale < 2.5) scale = 2.5;
+    else if (scale < MAX_SCALE) scale = MAX_SCALE;
+    else scale = MIN_SCALE;
+    if (scale === MIN_SCALE) { posX = 0; posY = 0; }
     applyTransform();
   });
 
   zimg.addEventListener("pointerdown", e => {
-    if (scale <= 1) return;
+    if (scale <= MIN_SCALE) return;
     dragging = true;
     moved = false;
     startX = e.clientX - posX;
@@ -268,7 +294,7 @@ function renderCartPage() {
         <div class="summary__row"><span>Subtotal</span><span>${money(total)}</span></div>
         <div class="summary__row"><span>Shipping</span><span>${shipping === 0 ? "Free" : money(shipping)}</span></div>
         <div class="summary__total"><span>Total</span><span>${money(total + shipping)}</span></div>
-        <button class="btn btn--solid" onclick="showToast('Checkout is a demo — connect a payment provider to go live')">Checkout</button>
+        <button class="btn btn--solid" onclick="checkout()">Checkout</button>
       </aside>
     </div>`;
 }

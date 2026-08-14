@@ -14,12 +14,29 @@
      image    - path to the photo. Put real photos in assets/products/
                 and point to them like "assets/products/my-photo.jpg"
      hoverImage - optional second photo shown when the shopper hovers the card
+     images   - optional array of ALL photos (front, side, back poses, etc.) for
+                the quick-view gallery thumbnails, e.g. ["assets/a.jpg", "assets/b.jpg"].
+                If omitted, the gallery falls back to just [image, hoverImage].
      featured - true shows it on the home page "Featured" section
      description - optional paragraph shown in the quick-view popup
      highlights - optional array of bullet points shown in the quick-view popup
    ===================================================================== */
 
 const CURRENCY = "₹";   // change to "$", "€", "AED" etc.
+
+/* =====================================================================
+   STORE POLICIES
+   ---------------------------------------------------------------------
+   Shown as accordion sections in every product's quick-view popup.
+   ⚠️ REPLACE THE TEXT BELOW with your real policies before going live —
+   these are placeholders, not accurate wash-care/shipping/return info.
+   ===================================================================== */
+const STORE_POLICIES = {
+  washCare: "PLACEHOLDER — add your real wash care instructions here (e.g. dry clean only, hand wash cold, etc).",
+  shipping: "PLACEHOLDER — add your real shipping timelines here (e.g. dispatch time, delivery estimate by region).",
+  exchangeReturn: "PLACEHOLDER — add your real exchange/return policy here (e.g. return window, condition required, who pays return shipping).",
+  disclaimer: "Colours may vary slightly due to lighting during photography and differences in screen settings. Minor variations in weave, texture, or print are natural characteristics of handcrafted fabrics and make each piece unique. Model imagery on this site is AI-generated for representational purposes only and may not depict the exact fit, drape, or fabric behaviour on an actual person.",
+};
 
 const PRODUCTS = [
   {
