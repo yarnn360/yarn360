@@ -294,7 +294,7 @@ function renderCartPage() {
         <div class="summary__row"><span>Subtotal</span><span>${money(total)}</span></div>
         <div class="summary__row"><span>Shipping</span><span>${shipping === 0 ? "Free" : money(shipping)}</span></div>
         <div class="summary__total"><span>Total</span><span>${money(total + shipping)}</span></div>
-        <button class="btn btn--solid" onclick="checkout()">Checkout</button>
+        <a href="checkout.html" class="btn btn--solid">Checkout</a>
       </aside>
     </div>`;
 }

@@ -8,28 +8,6 @@
 
 const CART_KEY = "yarn360_cart";
 
-// ⚠️ TEMPORARY: pointed at a local test server for verification.
-// After deploying cf-worker/ (see cf-worker/wrangler.toml), replace this
-// with your Worker's actual URL, e.g. "https://yarn360-whatsapp.you.workers.dev"
-const WHATSAPP_WORKER_URL = "http://127.0.0.1:8787";
-
-/* Notifies the store owner on WhatsApp that a new order came in.
-   Fire-and-forget: checkout still completes even if this fails, since the
-   Worker may not be deployed yet or the customer may be offline. */
-function notifyOrderOnWhatsApp() {
-  const cart = getCart();
-  const items = cart.map(item => {
-    const p = PRODUCTS.find(prod => prod.id === item.id);
-    return p ? { name: p.name, qty: item.qty, price: p.price } : null;
-  }).filter(Boolean);
-
-  fetch(`${WHATSAPP_WORKER_URL}/notify-order`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items, total: cartTotal() }),
-  }).catch(err => console.warn("WhatsApp order notification failed:", err));
-}
-
 function getCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
   catch { return []; }
@@ -83,11 +61,6 @@ function updateCartCount() {
   document.querySelectorAll(".js-cart-count").forEach(el => {
     el.textContent = cartCount();
   });
-}
-
-function checkout() {
-  notifyOrderOnWhatsApp();
-  showToast("Checkout is a demo — connect a payment provider to go live");
 }
 
 /* ---- Toast notification ---- */

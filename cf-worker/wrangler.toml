@@ -1,0 +1,8 @@
+name = "yarn360-whatsapp"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# Change this to your actual GitHub Pages URL so only your site can call
+# this Worker. Find it under your repo's Settings → Pages.
+[vars]
+ALLOWED_ORIGIN = "https://yarnn360.github.io"

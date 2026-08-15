@@ -80,12 +80,16 @@ async function handleNotifyOrder(request, env, corsHeaders) {
 
   const message = [
     "🛍️ New order on YARN360",
+    order.orderNumber ? `Order #${order.orderNumber}` : "",
     "",
     lines,
     "",
     `Total: ₹${Number(order.total || 0).toLocaleString("en-IN")}`,
     order.customerName ? `Customer: ${order.customerName}` : "",
     order.customerPhone ? `Phone: ${order.customerPhone}` : "",
+    order.address ? `Address: ${order.address}` : "",
+    order.landmark ? `Landmark: ${order.landmark}` : "",
+    order.pincode ? `PIN Code: ${order.pincode}` : "",
   ].filter(Boolean).join("\n");
 
   const data = await callGraphAPI(env, {
