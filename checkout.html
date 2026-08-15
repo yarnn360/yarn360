@@ -355,6 +355,7 @@ function clearCart(){
 
 /* ---------- state ---------- */
 let ORDER = "";
+let CUSTOMER_PHONE = "";
 
 /* ---------- money ---------- */
 const inr = n => "₹" + Number(n).toLocaleString("en-IN");
@@ -441,6 +442,7 @@ function placeOrder(){
   if(!ok) return;
 
   ORDER = makeOrderNo();
+  CUSTOMER_PHONE = val("f_phone");
 
   // ----- build WhatsApp order message (customer -> your business) -----
   const lines = getCart().map(i => `• ${i.name}${i.variant? " ("+i.variant+")":""} × ${i.qty} — ${inr(i.price*i.qty)}`).join("\n");
@@ -520,6 +522,16 @@ function sendConfirmationToCustomer(phone, orderNumber, amount){
 }
 
 function confirmOrder(){
+  fetch(`${CONFIG.whatsappWorkerUrl}/confirm-order`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      to: toWhatsAppNumber(CUSTOMER_PHONE),
+      orderNumber: ORDER,
+      dispatchDays: CONFIG.dispatchDays,
+    }),
+  }).catch(err => console.warn("Order confirmation notification failed:", err));
+
   clearCart();
   go(4);
 }
