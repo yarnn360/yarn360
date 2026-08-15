@@ -116,6 +116,10 @@
   .wa{display:inline-block;width:19px;height:19px;vertical-align:-4px;}
 
   /* ---------- pay ---------- */
+  .qrbox{text-align:center;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:14px;}
+  .qrbox #qrCode{display:inline-block;line-height:0;padding:10px;background:var(--white);border-radius:8px;}
+  .qrbox #qrCode img, .qrbox #qrCode canvas{display:block;margin:0 auto;}
+  .qrbox p{font-size:12.5px;color:var(--muted);margin:10px 0 0;}
   .paybox{background:var(--cream);border:1px dashed var(--line);border-radius:12px;padding:14px 15px;margin-bottom:12px;}
   .payline{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);}
   .payline:last-child{border-bottom:none;}
@@ -231,6 +235,11 @@
     <h1>Pay <span id="payAmt">₹0</span></h1>
     <p class="sub">Order <b id="payOrder">—</b> · Pay by GPay / any UPI app.</p>
 
+    <div class="qrbox">
+      <div id="qrCode"></div>
+      <p>Scan with any UPI app — amount and order number are already filled in</p>
+    </div>
+
     <div class="paybox">
       <div class="payline">
         <div><div class="k">UPI ID</div><div class="val" id="upiVal">—</div></div>
@@ -301,6 +310,7 @@
 </div>
 
 <script src="js/products.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
 /* ============================================================
    ⚙️  CONFIG — change these lines and you're live
@@ -311,7 +321,15 @@ const CONFIG = {
   gpayNumber     : "95977 81875",      // GPay-linked mobile number (shown to customer, always works even if upiId above is wrong)
   payeeName      : "YARN360",
   dispatchDays   : "2–3",
+  whatsappWorkerUrl: "https://yarn360-whatsapp.naziyaaashiq.workers.dev", // sends the customer their confirmation + QR image
 };
+
+/* Turns a 10-digit Indian mobile number into WhatsApp's expected format
+   (country code, no +, no spaces), e.g. "95977 81875" -> "919597781875" */
+function toWhatsAppNumber(phone){
+  const digits = String(phone).replace(/\D/g, "");
+  return digits.length === 10 ? `91${digits}` : digits;
+}
 
 /* ============================================================
    CART — reads the same localStorage bag your shop/cart pages use.
@@ -454,11 +472,51 @@ ${val("f_city")} — ${val("f_pin")}`;
 
   const upi = `upi://pay?pa=${encodeURIComponent(CONFIG.upiId)}&pn=${encodeURIComponent(CONFIG.payeeName)}&am=${total()}&cu=INR&tn=${encodeURIComponent(ORDER)}`;
   document.getElementById("upiDeep").href = upi;
+  renderPaymentQR(upi);
+  sendConfirmationToCustomer(val("f_phone"), ORDER, total());
 
   const shotMsg = `Payment done for Order ${ORDER} ✅\nAttaching my payment screenshot.`;
   document.getElementById("shotWa").href = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(shotMsg)}`;
 
   go(2);
+}
+
+/* Renders (or re-renders) the UPI payment QR code for the current order.
+   Regenerated on every placeOrder() call so it always reflects the current
+   order number and total, not a stale amount from a previous order. */
+function renderPaymentQR(upiString){
+  const box = document.getElementById("qrCode");
+  box.innerHTML = "";
+  new QRCode(box, {
+    text: upiString,
+    width: 180,
+    height: 180,
+    colorDark: "#22331C",
+    colorLight: "#FFFFFF",
+  });
+}
+
+/* Sends the customer an order confirmation text + the QR image on WhatsApp,
+   via the Cloudflare Worker (which holds the Meta credentials privately).
+   Fire-and-forget: checkout still proceeds even if this fails (e.g. Worker
+   unreachable, or customer's number isn't in the test-mode recipient list). */
+function sendConfirmationToCustomer(phone, orderNumber, amount){
+  const canvas = document.querySelector("#qrCode canvas");
+  if (!canvas) return;
+
+  const qrImageBase64 = canvas.toDataURL("image/png").split(",")[1];
+
+  fetch(`${CONFIG.whatsappWorkerUrl}/notify-customer`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      to: toWhatsAppNumber(phone),
+      orderNumber,
+      amount,
+      dispatchDays: CONFIG.dispatchDays,
+      qrImageBase64,
+    }),
+  }).catch(err => console.warn("Customer WhatsApp notification failed:", err));
 }
 
 function confirmOrder(){
