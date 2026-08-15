@@ -12,9 +12,12 @@
    Endpoints:
      POST /notify-order      - sends you a WhatsApp text with a new order's details
      POST /send-template     - sends an approved template message to any number
-     POST /notify-customer   - sends the customer an order confirmation text +
+     POST /notify-customer   - sends the customer an order-received text +
                                 the payment QR image (works within the 24-hour
                                 window opened by their own "Place order" message)
+     POST /confirm-order     - sends the customer a final "order confirmed,
+                                dispatching soon" text after they submit their
+                                payment screenshot
    ===================================================================== */
 
 const GRAPH_API_VERSION = "v21.0";
@@ -49,6 +52,9 @@ export default {
       }
       if (url.pathname === "/notify-customer") {
         return await handleNotifyCustomer(request, env, corsHeaders);
+      }
+      if (url.pathname === "/confirm-order") {
+        return await handleConfirmOrder(request, env, corsHeaders);
       }
       return new Response("Not found", { status: 404, headers: corsHeaders });
     } catch (err) {
@@ -207,6 +213,38 @@ async function handleNotifyCustomer(request, env, corsHeaders) {
   });
 
   return new Response(JSON.stringify({ ok: true, text: textResult, image: imageResult }), {
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
+/* Sends the customer a final "order confirmed" text after they've submitted
+   their payment screenshot — a separate, shorter message from the initial
+   order-received + QR message sent by /notify-customer. */
+async function handleConfirmOrder(request, env, corsHeaders) {
+  const { to, orderNumber, dispatchDays } = await request.json();
+
+  if (!to || !orderNumber) {
+    return new Response(JSON.stringify({ error: "'to' and 'orderNumber' are required" }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const message = [
+    `✅ Order ${orderNumber} confirmed!`,
+    "",
+    "Thank you for shopping with YARN360.",
+    `We'll verify your payment and dispatch your order within ${dispatchDays || "2-3"} days. Tracking will be shared here on WhatsApp.`,
+  ].join("\n");
+
+  const data = await callGraphAPI(env, {
+    messaging_product: "whatsapp",
+    to,
+    type: "text",
+    text: { body: message },
+  });
+
+  return new Response(JSON.stringify({ ok: true, data }), {
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 }
